@@ -1,3 +1,8 @@
+/**
+ * Returns if the inputted board is a valid board
+ * @param {Array[81]} squares - An array of 81 values representing the squares of the board
+ * @return {boolean} - true if there is a valid board, false otherwise 
+ */
 export function verifyWin(squares) {
     let grid = gridify(squares);
     // LOGIC TO VERIFY WIN
@@ -7,6 +12,12 @@ export function verifyWin(squares) {
     return true;
 }
 
+
+/**
+ * Takes inputted array of length 81 and converts it to 9x9 2D array
+ * @param {Array[81]} squares - array of values representing each square on the board
+ * @returns {Array[9][9]}
+ */
 export function gridify(squares) {
     // CREATING GRID FROM SQUARES
     let grid = Array(9);
@@ -24,6 +35,12 @@ export function gridify(squares) {
     return grid;
 }
 
+
+/**
+ * Checks if the inputted row is valid (no repeating digits)
+ * @param {Array[9]} row - array representing the values in a row of the board
+ * @returns {boolean} 
+ */
 function validRow(row) {
     let seen = new Set();;
     for(let i=0; i<row.length; i++) {
@@ -33,6 +50,11 @@ function validRow(row) {
     return true;
 }
 
+/**
+ * Checks if the column specified is valid (no repeating digits)
+ * @param {Array[9][9]} grid - a grid representing the board
+ * @param {number} colNum - the column number to verify (0-8)
+ */
 function validCol(grid, colNum) {
     let seen = new Set();
     for(let row=0; row<9; row++) {
@@ -44,9 +66,9 @@ function validCol(grid, colNum) {
 }
 
 /**
- * takes a grid and an integer representing the location of the box to validate (0-8)
- * @param {2D array} grid 
- * @param {integer} i 
+ * Checks if the box (aka subsquare) indicated is valid (no repeating digits)
+ * @param {2D array} grid - a grid representing the board
+ * @param {number} i - integer representing the location of the box to validate (0-8)
  */
 function validBox(grid, i) {
     const boxCol = i % 3;
