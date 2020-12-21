@@ -13,12 +13,23 @@ h4{
     font-size: 20px;
     font-weight: normal;
 }
-.right-side{
+
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+.box{
+    flex: 1 1 400px;
+    flex: 0 1 400px;
+    margin: 35px;
     text-align: justify;
     color: white;
-    float: right;
-    width: 30%;
-    margin-right: 5%;
+}
+
+.board {
+    text-align: center;
 }
 .square {
     background: #fff;
@@ -38,8 +49,8 @@ h4{
 }
 
 table{
-    position: absolute;
-    margin-left: 35%;
+    /* position: absolute; */
+    /* margin-left: 35%; */
     background-color: white;
     border-collapse: collapse;
     border: 2px solid black;
@@ -61,7 +72,9 @@ tr:nth-child(3n){
 }
 
 .validate{
-    position: absolute;
+    /* position: absolute;
+    float: right;
+    margin-right: 10%; */
     background-color: white;
     padding: 20px;
     border: 2px solid black;
