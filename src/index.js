@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import games from './games';
-import {validBoard} from './utils';
+import {validBoard, finishedBoard} from './utils';
 import './index.css';
 
 function Square(props){
@@ -65,8 +65,15 @@ class Board extends React.Component {
 
     validate() {
         const valid = validBoard(this.state.squares);
-        const status = valid ? "VALID" : "INVALID";
-        const message = `The current board is ${status}`;
+        const finished = finishedBoard(this.state.squares);
+        let message;
+        if(valid && finished) message = "congratulations you WON!";
+        else {
+            const status = valid ? "VALID" : "INVALID";
+            const fin = finished ? "COMPLETE" : "INCOMPLETE";
+            message = `The current board is ${status} and is ${fin}`;
+        }
+ 
         alert(message);
     }
     render() {

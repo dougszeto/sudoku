@@ -12,6 +12,14 @@ export function validBoard(squares) {
     return true;
 }
 
+/**
+ * returns if the board is finished (no empty squares)
+ * @param {Array[81]} squares 
+ */
+export function finishedBoard(squares) {
+    return !squares.includes(0);
+}
+
 
 /**
  * Takes inputted array of length 81 and converts it to 9x9 2D array
