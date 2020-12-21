@@ -3,7 +3,7 @@
  * @param {Array[81]} squares - An array of 81 values representing the squares of the board
  * @return {boolean} - true if there is a valid board, false otherwise 
  */
-export function verifyWin(squares) {
+export function validBoard(squares) {
     let grid = gridify(squares);
     // LOGIC TO VERIFY WIN
     for(let i = 0; i < 9; i++) {

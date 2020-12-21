@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import games from './games';
-import {verifyWin, gridify} from './utils';
+import {validBoard} from './utils';
 import './index.css';
 
 function Square(props){
@@ -62,12 +62,16 @@ class Board extends React.Component {
         return(<tr>{row}</tr>);
 
     }
+
+    validate() {
+        const valid = validBoard(this.state.squares);
+        const status = valid ? "VALID" : "INVALID";
+        const message = `The current board is ${status}`;
+        alert(message);
+    }
     render() {
         return (
             <div>
-                <h1>SUDOKU!</h1>
-                <br />
-
                 <table>
                     <tbody>
                         {this.renderRow(0)}
@@ -81,10 +85,30 @@ class Board extends React.Component {
                         {this.renderRow(8)}
                     </tbody>
                 </table>
+                <div className="right-side">
+                    <h4>The Rules of Sudoku</h4>
+                    <p>The rules of the game are simple: each of the nine blocks has to contain all the numbers 1-9 within its squares. Each number can only appear once in a row, column or box.</p>
+                    <p>The difficulty lies in that each vertical nine-square column, or horizontal nine-square line across, within the larger square, must also contain the numbers 1-9, without repetition or omission.</p>
+                    <p>Every puzzle has just one correct solution.</p>
+                    <br></br>
+                <button className="validate" onClick={() => this.validate()}> Validate! </button>
+                </div>
+                <br></br><br></br><br></br><br></br><br></br>
+            </div>
+        )
+    }
+}
+
+class Game extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>Sudoku</h1>
+                <Board />
             </div>
         )
     }
 }
 // ---------------------------------------------------------------------------------------
-ReactDOM.render(<center><Board /></center>, document.getElementById('root'));
+ReactDOM.render(<center><Game /></center>, document.getElementById('root'));
 
