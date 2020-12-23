@@ -94,3 +94,57 @@ function validBox(grid, i) {
     }
     return true;
 }
+
+
+export function solveBoard(grid) {
+    const empty = findEmptySquare(grid);
+    if(!empty) return true;
+
+    const row = empty[0];
+    const col = empty[1];
+
+    const boxRow = Math.floor(row/3);
+    const boxCol = Math.floor(col/3);
+    const boxIndex = 3*boxRow + boxCol;
+
+    for(let i=1; i<10; i++) {
+        grid[row][col] = i;
+        // console.log(`trying (${row}, ${col}) AS ${i}`);
+        if(validRow(grid[row]) && validCol(grid, col) && validBox(grid, boxIndex)){
+            // console.log(`(${row}, ${col}) is ${i}`);
+
+            if( solveBoard(grid) ) return true;
+            grid[row][col] = 0;
+            // console.log(`(${row}, ${col}) was reset`);
+        }
+        if(i === 9) {
+            grid[row][col] = 0;
+            // console.log(`(${row}, ${col}) was reset`);
+
+        }
+    }
+
+    return false;
+}
+
+
+function findEmptySquare(grid) {
+    for(let i=0; i< 9; i++) {
+        for(let j=0; j < 9; j++) {
+            if(grid[i][j] === 0) return [i, j];
+        }
+    }
+    return null;
+}
+
+export function degridify(grid) {
+    const squares = Array(81);
+    let count = 0;
+    for(let i=0; i<9; i++) {
+        for(let j=0; j<9; j++) {
+            squares[count] = grid[i][j];
+            count++;
+        }
+    }
+    return squares;
+}

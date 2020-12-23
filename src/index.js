@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import games from './games';
-import {validBoard, finishedBoard} from './utils';
+import {validBoard, finishedBoard, solveBoard, gridify, degridify} from './utils';
 import './index.css';
 
 function Square(props){
@@ -32,6 +32,7 @@ class Board extends React.Component {
         this.state = {
             squares: squares,
             editable: editable,
+            original: squares,
         }
     }
 
@@ -76,6 +77,17 @@ class Board extends React.Component {
  
         alert(message);
     }
+
+    solve() {
+        const squares = this.state.original.slice();
+        let grid = gridify(squares);        
+        solveBoard(grid);
+        const newSquares = degridify(grid);
+        this.setState({
+            squares: newSquares,
+        });
+    }
+
     render() {
         return (
             <div className="board">
@@ -93,7 +105,8 @@ class Board extends React.Component {
                     </tbody>
                 </table>
                 <br></br>
-                <button className="validate" onClick={() => this.validate()}> Validate! </button>
+                <button className="btn" onClick={() => this.validate()}> Validate </button>
+                <button className="btn" onClick={() => this.solve()}> Solve </button>
             </div>
         )
     }
@@ -114,6 +127,15 @@ class Game extends React.Component {
                         <br></br>
                     </div>
                     <Board className="box" />
+                    <div className="box">
+                        <h4>How to play:</h4>
+                        <ul>
+                            <li>Click on a square to increase its value (grey numbers cannot be changed).</li>
+                            <li>Try to fill the board based on the rules of the game!</li>
+                            <li>Use the 'Validate' button to see if your moves are valid (no repeating numbers in a row, column, or subsquare).</li>
+                            <li>Give up? Try the 'Solve' button to have the board solved for you.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         )
