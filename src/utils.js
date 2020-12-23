@@ -95,28 +95,49 @@ function validBox(grid, i) {
     return true;
 }
 
-
+/**
+ * Solves the board by using a backtracking algorithm.
+ * To get a good idea of how the algorithm works I highly suggest uncommenting the 
+ * console.log lines and opening the console up to see it at work!
+ * @param {Array} grid - a 9x9 array representing the sudoku board
+ */
 export function solveBoard(grid) {
+    
+    // find the next empty square
     const empty = findEmptySquare(grid);
+
+    // BASE CASE: there are no empty squares and therefore the board is solved
     if(!empty) return true;
 
+    // Extract the row, col, and box index of the empty square
     const row = empty[0];
     const col = empty[1];
-
     const boxRow = Math.floor(row/3);
     const boxCol = Math.floor(col/3);
     const boxIndex = 3*boxRow + boxCol;
 
+    // Increment the value of the empty square from 1-9
     for(let i=1; i<10; i++) {
         grid[row][col] = i;
+
         // console.log(`trying (${row}, ${col}) AS ${i}`);
+
+        // Test if the square of interest can be valid with the current number given from for-loop
         if(validRow(grid[row]) && validCol(grid, col) && validBox(grid, boxIndex)){
             // console.log(`(${row}, ${col}) is ${i}`);
-
+            
+            // Recursively call the function with the updated grid. If the grid is solveable then the square of interest
+            // has the correct value 
             if( solveBoard(grid) ) return true;
+
+            // If the board is not solveable then the square of interest must be reset
             grid[row][col] = 0;
+
             // console.log(`(${row}, ${col}) was reset`);
         }
+
+        // If the square of interest is not valid as 9 then it was not valid as 1-8 and there is an error
+        // somewhere else in the board. Reset the current square and backtrack
         if(i === 9) {
             grid[row][col] = 0;
             // console.log(`(${row}, ${col}) was reset`);
@@ -127,7 +148,10 @@ export function solveBoard(grid) {
     return false;
 }
 
-
+/**
+ * 
+ * @param {Array} grid - a 9x9 array representing the sudoku board
+ */
 function findEmptySquare(grid) {
     for(let i=0; i< 9; i++) {
         for(let j=0; j < 9; j++) {
@@ -137,6 +161,10 @@ function findEmptySquare(grid) {
     return null;
 }
 
+/**
+ * 
+ * @param {Array} grid - a 9x9 array representing the sudoku board
+ */
 export function degridify(grid) {
     const squares = Array(81);
     let count = 0;

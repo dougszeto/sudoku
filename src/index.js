@@ -20,15 +20,21 @@ function Square(props){
 class Board extends React.Component {
     constructor(props) {
         super(props);
+
+        // Selection of a random game board
         const rand = Math.floor(Math.random()*50);
         const squaresAsChar = Array.from(games[rand]);
         const squares = squaresAsChar.map( x => parseInt(x, 10));
+
+        // Storing locations of editable and non-editable squares
         let editable = [];
         for(let i=0; i<squares.length; i++) {
             if(squares[i] === 0) editable.push(true);
             else editable.push(false);
         }
         
+        // The board's state contains the current board (squares), locations of editable squares, and the original board
+        // which should not be changed 
         this.state = {
             squares: squares,
             editable: editable,
@@ -36,12 +42,21 @@ class Board extends React.Component {
         }
     }
 
+    /**
+     * Render the ith square with appropriate value and editable feature
+     * @param {number} i - the index of the square from 0-80
+     */
     renderSquare(i) {
         const value = this.state.squares[i];
         const editable = this.state.editable[i];
         return <Square value={value} editable={editable} onClick={() => this.handleClick(i)} />;
     }
 
+    /**
+     * Increment the value of the ith square 
+     * NOTE: values can only range from 0-9
+     * @param {number} i - the index of the square clicked 
+     */
     handleClick(i) {
         const newSquares = this.state.squares.slice();
         newSquares[i] = (newSquares[i] + 1) % 10;
@@ -51,11 +66,14 @@ class Board extends React.Component {
         
     }
 
+    /**
+     * Render the specified row of the board.
+     * @param {number} rowNum - the index of the row to be rendered
+     */
     renderRow(rowNum) {
         let location = rowNum * 9;
         let row = Array(9);
         for(let i=0; i<9; i++) {
-            
             row[i] = <td key={location}>{this.renderSquare(location)}</td>
             location++;
         }
@@ -64,9 +82,13 @@ class Board extends React.Component {
 
     }
 
+    /**
+     * validates the board using helper functions in utils.js
+     */
     validate() {
-        const valid = validBoard(this.state.squares);
-        const finished = finishedBoard(this.state.squares);
+        const squares = this.state.squares.slice();
+        const valid = validBoard(squares);
+        const finished = finishedBoard(squares);
         let message;
         if(valid && finished) message = "congratulations you WON!";
         else {
@@ -78,6 +100,9 @@ class Board extends React.Component {
         alert(message);
     }
 
+    /**
+     * solves the board using helper functions in utils.js
+     */
     solve() {
         const squares = this.state.original.slice();
         let grid = gridify(squares);        
